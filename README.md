@@ -1,3 +1,3 @@
 # loganathan-core-java
 sample,class and object,conditonal statement
-array,string
+array,string,loops,palindrome
