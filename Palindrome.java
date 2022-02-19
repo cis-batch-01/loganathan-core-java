@@ -1,0 +1,36 @@
+package com.technocis.sample;
+import  java.util.*;
+public class Palindrome {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter string"); //get user input
+		String str=sc.nextLine();
+		 
+		
+//		StringBuilder sb=new StringBuilder();   //use to the reverse in the string
+//		String rev=sb.reverse().toString();
+//		System.out.println(rev);
+		  String rev="";
+	      int length = str.length();           
+	      for ( int i = length - 1; i >= 0; i-- )  
+	      {
+	         rev = rev + str.charAt(i);
+	      }
+	      
+	      System.out.println(rev);
+	      
+	      if (str.equals(rev))  {
+	         System.out.println("Entered string/number is a palindrome.");  
+	      
+	      }else  
+	      {
+	    	  System.out.println("Entered string/number isn't a palindrome.");
+	      }  
+		}
+
+	
+
+}

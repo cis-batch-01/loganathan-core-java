@@ -1,3 +1,4 @@
+package com.technocis.sample;
  import java.util.*;
 public class Switch {
 
