@@ -28,17 +28,17 @@ public class MainCourse {
 				}
 				break;
 			case 2:
-				System.out.println("Enter the Cast id:");
+				System.out.println("Enter the Course id:");
 				int id = Integer.parseInt(scan.nextLine());
 				CourseClass course = Imp.get(id);
 				System.out.println(course!=null?course:"id not found");
 				break;
 			case 3:
-				System.out.println("Enter the cast Details");
+				System.out.println("Enter the Course Details");
 				String data = scan.nextLine();
 				CourseClass courseNew = CourseClass.createCourse(data);
 				boolean res=Imp.add(courseNew);
-				System.out.println(res?"Cast Added successfully":"storage is full");//ternary operation
+				System.out.println(res?"Course Added successfully":"storage is full");//ternary operation
 				break;
 			case 4:
 				System.out.println("Enter the id to be removed");
