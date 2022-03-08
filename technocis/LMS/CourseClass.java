@@ -1,8 +1,8 @@
-package com.technocis.LMS;
+package com.technocis.lms;
 
 import java.text.ParseException;
 
-public class CourseClass {
+public class CourseClass implements Comparable<CourseClass>{
 
 	private Integer courseId;
 	private String courseName;
@@ -115,7 +115,7 @@ public class CourseClass {
 	}
 	@Override
 	public String toString() {
-	return String.format("%-15s%-16s%-16s%-15s%-15s%-15s\n", courseId, courseName, courseContent,skillLevel,duration,rating);
+	return String.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", courseId, courseName, courseContent,skillLevel,duration,rating);
 	
 	}
 	public static CourseClass createCourseClass(String stringdata) throws NumberFormatException, ParseException {
@@ -123,6 +123,10 @@ public class CourseClass {
 				String [] data=stringdata.split(",");
 				CourseClass course=new CourseClass(Integer.parseInt(data[0]),data[1],data[2],data[3],data[4],Double.parseDouble(data[5]));
 				return course;
+	}
+	public int compareTo(CourseClass o) {
+		
+		return this.rating.compareTo(o.rating);
 	}
 	
 	
