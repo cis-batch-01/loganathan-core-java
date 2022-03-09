@@ -2,7 +2,7 @@ package com.technocis.lms;
 
 import java.text.ParseException;
 
-public class CourseClass implements Comparable<CourseClass> {
+public class CourseModel implements Comparable<CourseModel> {
 
 	private Integer courseId;
 	private String courseName;
@@ -59,7 +59,7 @@ public class CourseClass implements Comparable<CourseClass> {
 		this.rating = rating;
 	}
 
-	public CourseClass(Integer courseId, String courseName, String courseContent, String skillLevel, String duration,
+	public CourseModel(Integer courseId, String courseName, String courseContent, String skillLevel, String duration,
 			Double rating) {
 		super();
 		this.courseId = courseId;
@@ -70,7 +70,7 @@ public class CourseClass implements Comparable<CourseClass> {
 		this.rating = rating;
 	}
 
-	public CourseClass() {
+	public CourseModel() {
 		super();
 
 	}
@@ -96,7 +96,7 @@ public class CourseClass implements Comparable<CourseClass> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CourseClass other = (CourseClass) obj;
+		CourseModel other = (CourseModel) obj;
 		if (courseContent == null) {
 			if (other.courseContent != null)
 				return false;
@@ -137,15 +137,15 @@ public class CourseClass implements Comparable<CourseClass> {
 
 	}
 
-	public static CourseClass createCourseClass(String stringdata) throws NumberFormatException, ParseException {
+	public static CourseModel createCourseClass(String stringdata) throws NumberFormatException, ParseException {
 
 		String[] data = stringdata.split(",");
-		CourseClass course = new CourseClass(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4],
+		CourseModel course = new CourseModel(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4],
 				Double.parseDouble(data[5]));
 		return course;
 	}
 
-	public int compareTo(CourseClass o) {
+	public int compareTo(CourseModel o) {
 
 		return this.rating.compareTo(o.rating);
 	}

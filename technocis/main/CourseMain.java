@@ -8,17 +8,17 @@ import java.util.Scanner;
 import com.technocis.exception.AreaNotFoundException;
 import com.technocis.exception.CourseNotFoundException;
 import com.technocis.impl.RepositoryImpl;
-import com.technocis.lms.CourseClass;
+import com.technocis.lms.CourseModel;
 import com.technocis.rating.GetCourse;
 import com.technocis.repo.Repository;
 
-public class Course {
+public class CourseMain {
 
 	public static void main(String[] args) throws NumberFormatException, ParseException {
 		Scanner scan = new Scanner(System.in);
 		Repository co = new RepositoryImpl();
 		System.out.println("\t  course Details");
-		List<CourseClass> courseList = null;
+		List<CourseModel> courseList = null;
 		GetCourse pcourse = new GetCourse();
 		char choice = 'n';
 		do {
@@ -35,7 +35,7 @@ public class Course {
 				if (!courseList.isEmpty()) {
 					System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
 							"skillLevel", "duration", "rating");
-					for (CourseClass course : courseList) {
+					for (CourseModel course : courseList) {
 						System.out.println(course);
 					}
 				} else {
@@ -45,7 +45,7 @@ public class Course {
 			case 2:
 				System.out.println("Enter the course id:");
 				int courseid = Integer.parseInt(scan.nextLine());
-				CourseClass topic = co.get(courseid);
+				CourseModel topic = co.get(courseid);
 				try {
 					if (topic == null) {
 						throw new CourseNotFoundException("please check  your id");
@@ -66,7 +66,7 @@ public class Course {
 						"This details are enter the user ( courseId, courseName, courseContent,skillLevel,duration,rating)");
 				System.out.println("Enter the course Details");
 				String data = scan.nextLine();
-				CourseClass courseNew = CourseClass.createCourseClass(data);
+				CourseModel courseNew = CourseModel.createCourseClass(data);
 				boolean res = co.addCourseClass(courseNew);
 				System.out.println(res ? "Course Added successfully" : "storage is full");// ternary operation
 				break;
@@ -82,18 +82,18 @@ public class Course {
 				System.out.println(
 						"This details are enter the user ( courseId, courseName, courseContent,skillLevel,duration,rating)");
 				String updateData = scan.nextLine(); // input for updated data
-				CourseClass updatedCourseClass = CourseClass.createCourseClass(updateData);
+				CourseModel updatedCourseClass = CourseModel.createCourseClass(updateData);
 				boolean result = co.updateCourseClass(updateId, updatedCourseClass);
 
 				System.out.println(result ? "updated success" : "not get updated");
 				break;
 			case 6:
 				System.out.println("High  course in the list");
-				List<CourseClass> top = pcourse.findGoodCourse(courseList);
+				List<CourseModel> top = pcourse.findGoodCourse(courseList);
 				if (!top.isEmpty()) {
 					System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
 							"skillLevel", "duration", "rating");
-					for (CourseClass course : top) {
+					for (CourseModel course : top) {
 						System.out.println(course);
 					}
 				} else {
@@ -102,11 +102,11 @@ public class Course {
 				break;
 			case 7:
 				System.out.println("The low course list ");
-				List<CourseClass> low = pcourse.findpoorCourse(courseList);
+				List<CourseModel> low = pcourse.findpoorCourse(courseList);
 				if (!low.isEmpty()) {
 					System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
 							"skillLevel", "duration", "rating");
-					for (CourseClass course : low) {
+					for (CourseModel course : low) {
 						System.out.println(course);
 					}
 				} else {
@@ -116,7 +116,7 @@ public class Course {
 			case 8:
 				System.out.println("Type your area of interest in programming language :");
 				String inputdata = scan.nextLine();
-				List<CourseClass> area = pcourse.findInterestCourse(courseList, inputdata);// list object assign
+				List<CourseModel> area = pcourse.findInterestCourse(courseList, inputdata);// list object assign
 																							// getcourse class object in
 																							// used to find
 																							// interestcourse
@@ -127,7 +127,7 @@ public class Course {
 					} else {
 						System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
 								"skillLevel", "duration", "rating");
-						for (CourseClass course : area) {
+						for (CourseModel course : area) {
 							System.out.println(course);
 						}
 					}

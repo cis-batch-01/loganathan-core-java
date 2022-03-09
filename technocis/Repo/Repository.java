@@ -2,19 +2,19 @@ package com.technocis.repo;
 
 import java.util.List;
 
-import com.technocis.lms.CourseClass;
+import com.technocis.lms.CourseModel;
 
 public interface Repository {
 
-	public boolean addCourseClass(CourseClass course);
+	public boolean addCourseClass(CourseModel course);
 
 	public boolean remove(int id);
 
-	public boolean updateCourseClass(int id, CourseClass course);
+	public boolean updateCourseClass(int id, CourseModel course);
 
-	public List<CourseClass> getAllCourseClass();
+	public List<CourseModel> getAllCourseClass();
 
-	public CourseClass get(int id);
+	public CourseModel get(int id);
 
-	public CourseClass getcourse(String data); // user search get course
+	public CourseModel getcourse(String data); // user search get course
 }
