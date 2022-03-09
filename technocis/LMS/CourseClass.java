@@ -2,7 +2,7 @@ package com.technocis.lms;
 
 import java.text.ParseException;
 
-public class CourseClass implements Comparable<CourseClass>{
+public class CourseClass implements Comparable<CourseClass> {
 
 	private Integer courseId;
 	private String courseName;
@@ -10,42 +10,55 @@ public class CourseClass implements Comparable<CourseClass>{
 	private String skillLevel;
 	private String duration;
 	private Double rating;
+
 	public Integer getCourseId() {
 		return courseId;
 	}
+
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
+
 	public String getCourseName() {
 		return courseName;
 	}
+
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
+
 	public String getCourseContent() {
 		return courseContent;
 	}
+
 	public void setCourseContent(String courseContent) {
 		this.courseContent = courseContent;
 	}
+
 	public String getSkillLevel() {
 		return skillLevel;
 	}
+
 	public void setSkillLevel(String skillLevel) {
 		this.skillLevel = skillLevel;
 	}
+
 	public String getDuration() {
 		return duration;
 	}
+
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+
 	public Double getRating() {
 		return rating;
 	}
+
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
+
 	public CourseClass(Integer courseId, String courseName, String courseContent, String skillLevel, String duration,
 			Double rating) {
 		super();
@@ -56,10 +69,12 @@ public class CourseClass implements Comparable<CourseClass>{
 		this.duration = duration;
 		this.rating = rating;
 	}
+
 	public CourseClass() {
 		super();
-		
+
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -72,6 +87,7 @@ public class CourseClass implements Comparable<CourseClass>{
 		result = prime * result + ((skillLevel == null) ? 0 : skillLevel.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -113,22 +129,25 @@ public class CourseClass implements Comparable<CourseClass>{
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
-	return String.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", courseId, courseName, courseContent,skillLevel,duration,rating);
-	
+		return String.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", courseId, courseName, courseContent, skillLevel,
+				duration, rating);
+
 	}
+
 	public static CourseClass createCourseClass(String stringdata) throws NumberFormatException, ParseException {
-		
-				String [] data=stringdata.split(",");
-				CourseClass course=new CourseClass(Integer.parseInt(data[0]),data[1],data[2],data[3],data[4],Double.parseDouble(data[5]));
-				return course;
+
+		String[] data = stringdata.split(",");
+		CourseClass course = new CourseClass(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4],
+				Double.parseDouble(data[5]));
+		return course;
 	}
+
 	public int compareTo(CourseClass o) {
-		
+
 		return this.rating.compareTo(o.rating);
 	}
-	
-	
 
 }

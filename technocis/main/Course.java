@@ -1,11 +1,12 @@
 package com.technocis.main;
 
-import java.awt.print.Printable;
+
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.technocis.exception.AreaNotFoundException;
+import com.technocis.exception.CourseNotFoundException;
 import com.technocis.impl.RepositoryImpl;
 import com.technocis.lms.CourseClass;
 import com.technocis.rating.GetCourse;
@@ -16,15 +17,15 @@ public class Course {
 	public static void main(String[] args) throws NumberFormatException, ParseException {
 		Scanner scan = new Scanner(System.in);
 		Repository co = new RepositoryImpl();
-		System.out.println("course Details");
+		System.out.println("\t  course Details");
 		List<CourseClass> courseList = null;
 		GetCourse pcourse = new GetCourse();
 		char choice = 'n';
 		do {
 			System.out.println(
-					"1.Get all Course \n2.get course from id \n3.add course\n4.remove course\n5.update course\n6.good rating courses"
-							+ "               \n7.poor rating courses\n8.Area of interest");
-			System.out.println("Select your choice");
+					"1.List of  all Course \n2.Fetch  course detail from id \n3.Add  a course\n4.Delete course\n5.Edit a course\n6.High rating courses"
+							+ "               \n7.Low rating courses\n8.Area of interest");
+			System.out.println(" please Select your choice");
 			int option = Integer.parseInt(scan.nextLine());
 
 			switch (option) {
@@ -38,7 +39,7 @@ public class Course {
 						System.out.println(course);
 					}
 				} else {
-					System.out.println("the  list is empty");
+					System.out.println("The  list is empty");
 				}
 				break;
 			case 2:
@@ -47,7 +48,7 @@ public class Course {
 				CourseClass topic = co.get(courseid);
 				try {
 					if (topic == null) {
-						throw new CourseNotFoundException("check  your id");
+						throw new CourseNotFoundException("please check  your id");
 					} else {
 						System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
 								"skillLevel", "duration", "rating");
@@ -59,17 +60,15 @@ public class Course {
 					System.out.println(e);
 
 				}
-
-				
 				break;
 			case 3:
 				System.out.println(
 						"This details are enter the user ( courseId, courseName, courseContent,skillLevel,duration,rating)");
-				System.out.println("Enter the topic Details");
+				System.out.println("Enter the course Details");
 				String data = scan.nextLine();
 				CourseClass courseNew = CourseClass.createCourseClass(data);
 				boolean res = co.addCourseClass(courseNew);
-				System.out.println(res ? "Topic Added successfully" : "storage is full");// ternary operation
+				System.out.println(res ? "Course Added successfully" : "storage is full");// ternary operation
 				break;
 			case 4:
 				System.out.println("Enter the id to be removed");
@@ -80,40 +79,62 @@ public class Course {
 				System.out.println("Enter the id to be updated:");
 				int updateId = Integer.parseInt(scan.nextLine()); // input for id number
 				System.out.println("Enter the course details");
+				System.out.println(
+						"This details are enter the user ( courseId, courseName, courseContent,skillLevel,duration,rating)");
 				String updateData = scan.nextLine(); // input for updated data
 				CourseClass updatedCourseClass = CourseClass.createCourseClass(updateData);
 				boolean result = co.updateCourseClass(updateId, updatedCourseClass);
-				System.out.println(result ? "updated" : "not get updated");
+
+				System.out.println(result ? "updated success" : "not get updated");
 				break;
 			case 6:
 				System.out.println("High  course in the list");
 				List<CourseClass> top = pcourse.findGoodCourse(courseList);
-				System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
-						"skillLevel", "duration", "rating");
-				for (CourseClass course : top) {
-					System.out.println(course);
+				if (!top.isEmpty()) {
+					System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
+							"skillLevel", "duration", "rating");
+					for (CourseClass course : top) {
+						System.out.println(course);
+					}
+				} else {
+					System.out.println("\t No good cousre");
 				}
-
 				break;
 			case 7:
-				System.out.println("The low course list is");
+				System.out.println("The low course list ");
 				List<CourseClass> low = pcourse.findpoorCourse(courseList);
-				System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
-						"skillLevel", "duration", "rating");
-				for (CourseClass course : low) {
-					System.out.println(course);
+				if (!low.isEmpty()) {
+					System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
+							"skillLevel", "duration", "rating");
+					for (CourseClass course : low) {
+						System.out.println(course);
+					}
+				} else {
+					System.out.println("\t No poor cousre");
 				}
 				break;
 			case 8:
 				System.out.println("Type your area of interest in programming language :");
 				String inputdata = scan.nextLine();
-				List<CourseClass> area = pcourse.findInterestCourse(courseList, inputdata);
-				System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
-						"skillLevel", "duration", "rating");
-				for (CourseClass course : area) {
-					System.out.println(course);
-				}
+				List<CourseClass> area = pcourse.findInterestCourse(courseList, inputdata);// list object assign
+																							// getcourse class object in
+																							// used to find
+																							// interestcourse
+				try {
+					if (area.isEmpty()) {
+						throw new AreaNotFoundException(
+								"This course is not available \n  please Choose another course ");
+					} else {
+						System.out.format("%-15s%-20s%-20s%-20s%-20s%-20s\n", "courseId", "courseName", "courseContent",
+								"skillLevel", "duration", "rating");
+						for (CourseClass course : area) {
+							System.out.println(course);
+						}
+					}
+				} catch (Exception e) {
+					System.out.println(e);
 
+				}
 				break;
 			default:
 				System.out.println("Invalid choice");

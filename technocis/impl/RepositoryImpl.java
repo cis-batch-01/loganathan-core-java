@@ -31,7 +31,10 @@ public class RepositoryImpl implements Repository {
 	}
 
 	public boolean updateCourseClass(int id, CourseClass course) {
-		courseList.remove(id - 1);
+	
+		CourseClass old=get(id);
+		courseList.remove(old);
+		
 		return courseList.add(course);
 	}
 

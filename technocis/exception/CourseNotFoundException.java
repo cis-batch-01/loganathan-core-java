@@ -1,4 +1,4 @@
-package com.technocis.main;
+package com.technocis.exception;
 
 public class CourseNotFoundException extends Exception {
 

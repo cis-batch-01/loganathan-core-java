@@ -16,5 +16,5 @@ public interface Repository {
 
 	public CourseClass get(int id);
 
-	public CourseClass getcourse(String data);  //user search get course
+	public CourseClass getcourse(String data); // user search get course
 }

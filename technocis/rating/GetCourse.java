@@ -10,7 +10,6 @@ public class GetCourse {
 
 	public List<CourseClass> findGoodCourse(List<CourseClass> courseList) {
 		List<CourseClass> resList = new ArrayList<CourseClass>();
-		// Collections.sort(courseList,Collections.reverseOrder());
 		for (int i = 0; i < courseList.size(); i++) {
 			if (courseList.get(i).getRating() > 3.5) {
 				resList.add(courseList.get(i));
