@@ -32,6 +32,12 @@ public class Question {
 		super();
 		
 	}
+	
+	public Question(String question_content, String topic_name) {
+		super();
+		this.question_content = question_content;
+		this.topic_name = topic_name;
+	}
 	@Override
 	public String toString() {
 		return "Question [question_id=" + question_id + ", question_content=" + question_content + ", topic_name="
