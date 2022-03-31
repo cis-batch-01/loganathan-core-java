@@ -96,7 +96,7 @@ CREATE TABLE `user` (
   CONSTRAINT `user_display_picture_id_foreign` FOREIGN KEY (`display_picture_id`) REFERENCES `image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `user_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 insert into user (`id`, `created_at`,  `updated_at`,`first_name`,`last_name`,`email` ,`password`,
 `date_of_birth`,`address`, `display_picture_id`,`organization_id`) values('u001','2000-02-20','2005-03-25','logan','ramesh','logu@gmail.com','Logan'
 ,'1999-06-15','{"area":"sholinghur","state":"tn"}','p001','org001');
@@ -113,8 +113,7 @@ insert into user (`id`, `created_at`,  `updated_at`,`first_name`,`last_name`,`em
 `date_of_birth`,`address`, `display_picture_id`,`organization_id`) values('u005','2000-04-25','2005-05-29','bhoopathi','mani','bhoopathi@gmail.com','Bhoopathi'
 ,'1988-06-18','{"area":"sp","state":"tn"}','p006','org005');
 DROP TABLE IF EXISTS `user_roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `user_roles` (
   `user_id` varchar(36) NOT NULL,
   `role_id` varchar(36) NOT NULL,
@@ -124,7 +123,7 @@ CREATE TABLE `user_roles` (
   CONSTRAINT `user_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_roles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 insert into user_roles(`user_id`,`role_id`)values('u001','r001');
 insert into user_roles(`user_id`,`role_id`)values('u002','r002');
 insert into user_roles(`user_id`,`role_id`)values('u003','r003');
@@ -147,9 +146,10 @@ delete from instructor where user_id="u004";
 update  instructor set  user_id='u005' where id='s001';
 set sql_safe_updates=0;
 select * from instructor;
-/*insert into instructor(`id`,`created_at`,`updated_at` ,`bio` ,`tagline` ,`user_id`) 
-values('s005','2000-04-25','2005-05-29','java trainer','office,college placement ','u001');
+select * from user;
 insert into instructor(`id`,`created_at`,`updated_at` ,`bio` ,`tagline` ,`user_id`) 
+values('s001','2000-04-25','2005-05-29','java trainer','office,college placement ','u002');
+/*insert into instructor(`id`,`created_at`,`updated_at` ,`bio` ,`tagline` ,`user_id`) 
 values('s002','2000-04-21','2005-05-25','backend trainer','office,college placement ','u002');
 insert into instructor(`id`,`created_at`,`updated_at` ,`bio` ,`tagline` ,`user_id`) 
 values('s003','2000-04-22','2005-05-29','full stack trainer','office,college placement ','u003');
@@ -187,7 +187,6 @@ CREATE TABLE `course` (
   CONSTRAINT `course_cover_id_foreign` FOREIGN KEY (`cover_id`) REFERENCES `image` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `course_instructor_id_foreign` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 update  course set  instructor_id='s005' where id='c005';
 
 insert into course( `id`,`created_at` ,`updated_at` ,`title` ,`description` ,`status` ,`duration` ,`level` ,`price` ,
@@ -210,7 +209,18 @@ insert into course( `id`,`created_at` ,`updated_at` ,`title` ,`description` ,`st
   values('c004','2005-04-30','2010-05-29','react','front-end devloper','PUBLISHED','90days','ADVANCED',50000,4.5,0
   ,'s005','re001','p004','p004','{"introduction":"3days"," progrmming ":"25days",
   "Advance ":"30days"}','INTERNAL');
-  
+  insert into course( `id`,`created_at` ,`updated_at` ,`title` ,`description` ,`status` ,`duration` ,`level` ,`price` ,
+  `rating` ,`rating_count` ,`instructor_id` ,`code` ,`banner_id` ,`cover_id` ,`curriculum` ,`visibility`)
+  values('c005','2005-04-30','2010-05-29','mongodb','backendevloper','ARCHIVED','90days','ADVANCED',50000,4.5,0
+  ,'s005','mdb001','p005','p005','{"introduction":"3days"," rest api  ":"25days",
+  "Express ,node js ":"30days"}','INTERNAL');
+  insert into course( `id`,`created_at` ,`updated_at` ,`title` ,`description` ,`status` ,`duration` ,`level` ,`price` ,
+  `rating` ,`rating_count` ,`instructor_id` ,`code` ,`banner_id` ,`cover_id` ,`curriculum` ,`visibility`)
+  values('c006','2005-04-30','2010-05-29','html','wep devlopment','PUBLISHED','60days','INTERMEDIATE',20000,4.5,0
+  ,'s005','mdb001','p006','p006','{"introduction":"3days"," codeing  ":"25days",
+  "css ":"30days"}','INTERNAL');
+  update course set  code='html001' where id='c006';
+  select * from course;
 DROP TABLE IF EXISTS `category`;
 update category set  parent_id='null' where id='cat2';
 
@@ -240,9 +250,9 @@ insert into `category` (id,created_at,updated_at,title,slug,description,parent_i
 values('cat4','2022-09-03','2022-09-05','js','wa','connect fa and wa','cat2',0);
 insert into `category` (id,created_at,updated_at,title,slug,description,parent_id,enabled)
 values('cat5','2022-06-05','2022-06-09',' jsp','sa','connect wa and sa','cat1',0);
-
+insert into `category` (id,created_at,updated_at,title,slug,description,enabled)
+values('cat6','2022-06-05','2022-06-09',' backend','sa','connect to frontend',0);
 DROP TABLE IF EXISTS `category_courses`;
-
 CREATE TABLE `category_courses` (
   `category_id` varchar(36) NOT NULL,
   `course_id` varchar(36) NOT NULL,
@@ -257,6 +267,7 @@ CREATE TABLE `category_courses` (
 insert into category_courses( `category_id`,`course_id` )values('cat5','c002');
 insert into category_courses( `category_id`,`course_id` )values('cat5','c003');
 insert into category_courses( `category_id`,`course_id` )values('cat1','c001');
+insert into category_courses( `category_id`,`course_id` )values('cat6','c005');
 
 drop table course_pre_requisites;
 CREATE TABLE `course_pre_requisites` (
@@ -269,12 +280,13 @@ CREATE TABLE `course_pre_requisites` (
   CONSTRAINT `course_pre_requisites_course_2_id_foreign` FOREIGN KEY (`course_2_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-drop table course_students;
+drop table course_pre_requisites;
 
-insert into course_pre_requisites(`course_1_id`,`course_2_id`)values('c001','c002');
-insert into course_pre_requisites(`course_1_id`,`course_2_id`)values('c002','c003');
-insert into course_pre_requisites(`course_1_id`,`course_2_id`)values('c001','c003');
 
+insert into course_pre_requisites(`course_1_id`,`course_2_id`)values('c002','c001');
+insert into course_pre_requisites(`course_1_id`,`course_2_id`)values('c004','c003');
+select * from course;
+select * from course_pre_requisites;
 CREATE TABLE `course_students` (
   `course_id` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
@@ -288,7 +300,10 @@ drop table course_students;
 insert into course_students(`course_id`,`user_id`)values('c001','u001');
 insert into course_students(`course_id`,`user_id`)values('c002','u001');
 insert into course_students(`course_id`,`user_id`)values('c001','u004');
-
+insert into course_students(`course_id`,`user_id`)values('c006','u003');
+select * from user;
+select *from user;
+SELECT * FROM INSTRUCTOR;
 CREATE TABLE `migrations` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -324,9 +339,9 @@ CREATE TABLE `payment` (
 
 6.write a query to show the name of the course,no of Students in course java
 7.write a query to show all the course details of Back End
-8.Write a query to show the payment details
+8.Write a query to show the payment details*/
 
-
+show tables;
 /*1. Write a query to display all the available course categories?*/
 use lms;
 select * from category_courses;
@@ -373,8 +388,50 @@ join user on instructor.user_id=user.id;
 /*10.Write a query to get all the course under 50000.*/
 select * from course where price<"50000" ;
 
-/*11.write a query to fetch all the corses for the user from organization org03*/
+/*11.write a query to fetch all the corses for the user from organization org003*/
 select * from course ;
+select * from  organization where organization.id="org001";
 select * from organization ;
 select * from user;
-select * from course_student join organization ;
+select * from course_students;
+select* from course;
+ 
+/*where course.visibility ="public" and organization.license="" ;*/
+
+
+/**********/
+
+select * from organization;
+select * from course_students;
+select * from course
+ join course_students on course_students.course_id=course.id
+join user on user.id=course_students.user_id 
+join organization on user.organization_id=organization.id
+where organization.license="u001";
+/*******************************/
+select * from organization;
+select* from course;
+/*check course visible and organization license */
+/*full*/
+select course.id,course.title,course.description,course.price,course.duration from course
+ join course_students on course_students.course_id=course.id
+join user on user.id=course_students.user_id 
+join organization on user.organization_id=organization.id
+where visibility ='internal' ||visibility ='public';
+/*trial*/
+select course.id,course.title,course.description,course.price,course.duration from course
+ join course_students on course_students.course_id=course.id
+join user on user.id=course_students.user_id 
+join organization on user.organization_id=organization.id
+where visibility ='internal' ||visibility ='public';
+/*internal */
+select course.id,course.title,course.description,course.price,course.duration from course
+ join course_students on course_students.course_id=course.id
+join user on user.id=course_students.user_id 
+join organization  on user.organization_id=organization.id
+where organization.id='org003'  and visibility='internal';
+/*External*/
+select id,title,description,price,duration from course where visibility='public';
+
+
+
