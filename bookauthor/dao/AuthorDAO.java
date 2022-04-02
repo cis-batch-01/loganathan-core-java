@@ -7,6 +7,7 @@ import com.technocis.bookauthor.model.Books;
 
 public interface AuthorDAO {
      public Author insertAuthor(Author author);
-     public List<Author> getAllAuthor() ;
-     public List<Books> getAllAuthor(String  bookId);
+     public List<Author> getAllAuthorList() ;
+     public List<Author> getAllAuthorBookList(String  bookId);
+     public Author getAuthor(String authorId);
 }

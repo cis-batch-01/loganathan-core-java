@@ -79,8 +79,9 @@ public Books() {
 }
 @Override
 public String toString() {
-	return "Books [book_id=" + book_id + ", name=" + name + ", description=" + description + ", publication="
-			+ publication + ", published_date=" + published_date + ", price=" + price + "]";
+	return "Books \nbook_id=" + book_id + "\nname=" + name + "\ndescription=" + description + "\npublication="
+			+ publication + "\npublished_date=" + published_date + "\nprice=" + price + "\nauthor=" + author + "\n";
 }
+
  
 }

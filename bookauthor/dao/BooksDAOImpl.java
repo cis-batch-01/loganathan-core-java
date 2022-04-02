@@ -11,76 +11,96 @@ import com.technocis.bookauthor.connection.ConnectionUtil;
 import com.technocis.bookauthor.model.Author;
 import com.technocis.bookauthor.model.Books;
 
+public class BooksDAOImpl implements BooksDAO {
 
-public class BooksDAOImpl implements  BooksDAO{
-
-	static String selectAllQuery = "select Name,description,Publication,Published_date,Price from Books where Book_id=?";
-	static String addQuery = "insert into Books( Book_id,Name,description,Publication,Published_date,Price)values(?,?,?,?,?)";
-	static String selectAuthorBook=" select  books.title,books.description, books.price from books "
+	static String selectAllQuery = "select book_id,title,description,Publication,Published_date,Price from books ";
+	static String addQuery = "insert into books( Book_id,title,description,Publication,Published_date,Price)values(?,?,?,?,?,?)";
+	static String selectAuthorBook = " select  books.Book_id,books.title,books.description,books.publication,books.published_date,books.price from books "
 			+ "join book_author on book_author.Book_id=books.Book_id join Author  as a on book_author.Author_id=a.Author_id "
 			+ "where book_author.Author_id=?";
-			
+
 	public Books insertBooks(Books book) {
-		Connection con =null;
-		PreparedStatement pstmt;
-		con=ConnectionUtil.getDBConnection();
+		Connection con = null;
+		PreparedStatement pstmt=null;
+		con = ConnectionUtil.getDBConnection();
 		try {
-			pstmt=con.prepareStatement(addQuery);
+			pstmt = con.prepareStatement(addQuery);
 			pstmt.setString(1, book.getBook_id());
 			pstmt.setString(2, book.getName());
 			pstmt.setString(3, book.getDescription());
 			pstmt.setString(4, book.getPublication());
-			pstmt.setDate(5,  new java.sql.Date(book.getPublished_date().getTime() ));
+			pstmt.setDate(5, new java.sql.Date(book.getPublished_date().getTime()));
 			pstmt.setDouble(6, book.getPrice());
-			int result=pstmt.executeUpdate();
-			if(result>0) {
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				BookAuthorRelationDao bookAuthorRelDao = new BookAuthorRelationDaoImpl();
+				for (Author author : book.getAuthor()) {
+					
+					bookAuthorRelDao.insertBookAuthorRel(book.getBook_id(), author.getAuthor_id());
+
+				}
 				return book;
 			}
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return null;
 	}
-	public List<Books> getAllBooks(String bookId) {
-		Connection con =null;
-		PreparedStatement pstmt;
-		List<Books> resList=new ArrayList<Books>();
-		con=ConnectionUtil.getDBConnection();
+
+		public List<Books> getAllBooks() {
+		AuthorDAO authorDao = new AuthorDAOImpl();
+		List<Books> bookList = new ArrayList<Books>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
-			pstmt=con.prepareStatement(selectAllQuery);
-			pstmt.setString(1, bookId);
-			ResultSet set=pstmt.executeQuery();
-			while(set.next()) {
-				resList.add(new Books(set.getString(1),set.getString(2),
-						set.getString(3),set.getString(4),set.getDate(5),set.getDouble(6),null)) ;
+			con = ConnectionUtil.getDBConnection();
+			pstmt = con.prepareStatement(selectAllQuery);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookList.add(new Books(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getDate(5), rs.getDouble(6), authorDao.getAllAuthorBookList(rs.getString(1))));
 			}
+
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
-		}
-		return resList;
-	}
-	public List<Author> getAllAuthorBooks(String authorId) {
-		Connection con =null;
-		PreparedStatement pstmt;
-		Author author=null;
-		 List<Author> resList= new ArrayList<Author>();
-		con=ConnectionUtil.getDBConnection();
-		try {
-			pstmt=con.prepareStatement(selectAuthorBook);
-			pstmt.setString(1,authorId);
-			ResultSet set=pstmt.executeQuery();
-			while(set.next()) {
-				resList.add(new Author(set.getString(1),set.getString(2),
-						set.getString(3),set.getString(4),set.getDate(5),null)) ;
+		} finally {
+			try {
+
+				pstmt.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
 		}
-		return resList;
+		return bookList;
 	}
 
+	public List<Books> getAllAuthorBooks(String authorId) {
+		List<Books> listOfBooks = new ArrayList<Books>();
+		AuthorDAO authorDao = new AuthorDAOImpl();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		con = ConnectionUtil.getDBConnection();
+		try {
+			pstmt = con.prepareStatement(selectAuthorBook);
+			pstmt.setString(1, authorId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				listOfBooks.add(new Books(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getDate(5), rs.getDouble(6),null));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listOfBooks;
+	}
 }

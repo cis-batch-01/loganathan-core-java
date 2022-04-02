@@ -57,14 +57,21 @@ public class Author {
 		this.firstbook_releasedyear = firstbook_releasedyear;
 		this.book = book;
 	}
-	public Author(String string, String string2, String string3, java.sql.Date date, Object object) {
+	
+	
+	public Author(String author_id, String name, String gender, String description, Date firstbook_releasedyear) {
 		super();
-		
+		Author_id = author_id;
+		this.name = name;
+		this.gender = gender;
+		this.description = description;
+		this.firstbook_releasedyear = firstbook_releasedyear;
 	}
 	@Override
 	public String toString() {
-		return "Author [Author_id=" + Author_id + ", name=" + name + ", gender=" + gender + ", description="
-				+ description + ", firstbook_releasedyear=" + firstbook_releasedyear + ", book=" + book + "]";
+		return "\nAuthor_id=" + Author_id + "\nname=" + name + "\ngender=" + gender + "\ndescription="
+				+ description + "\nfirstbook_releasedyear=" + firstbook_releasedyear + "\nbook=" + book + "\n";
 	}
+	
 	
 }
